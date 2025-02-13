@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
-
 import 'package:e_commerce/core/errors/failuer.dart';
-
+import 'package:e_commerce/domain/entites/LoginResponseEntity.dart';
 import 'package:e_commerce/domain/entites/RegisterResponseEntity.dart';
 import 'package:injectable/injectable.dart';
 
@@ -19,6 +18,13 @@ class AuthRepositoryImpl implements AuthRepository {
       String email, String password, String rePassword, String phone) async {
     var either = await authRemoteDataSource.register(
         name, email, password, rePassword, phone);
+    return either.fold((error) => Left(error), (response) => Right(response));
+  }
+
+  @override
+  Future<Either<Failures, LoginResponseEntity>> login(
+      String email, String password) async {
+    var either = await authRemoteDataSource.login(email, password);
     return either.fold((error) => Left(error), (response) => Right(response));
   }
 }

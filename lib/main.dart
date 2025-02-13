@@ -2,11 +2,13 @@ import 'package:e_commerce/features/ui/auth/register/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'core/di/di.dart';
 import 'core/utils/app_routes.dart';
 import 'core/utils/app_theme.dart';
 import 'core/utils/my_bloc_observer.dart';
 import 'features/ui/auth/login/login_screen.dart';
+import 'features/ui/pages/home_screen/home_screen.dart';
 
 void main() {
   configureDependencies();
@@ -27,10 +29,11 @@ class MyApp extends StatelessWidget {
         builder: (context, child) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            initialRoute: AppRoutes.registerRoute,
+            initialRoute: AppRoutes.homeRoute,
             routes: {
               AppRoutes.registerRoute: (context) => RegisterScreen(),
               AppRoutes.loginRoute: (context) => LoginScreen(),
+              AppRoutes.homeRoute: (context) => HomeScreen(),
             },
             theme: AppTheme.lightTheme,
           );

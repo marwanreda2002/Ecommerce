@@ -3,12 +3,14 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:e_commerce/core/errors/failuer.dart';
 import 'package:e_commerce/data/model/RegisterResponseDM.dart';
+import 'package:e_commerce/domain/entites/LoginResponseEntity.dart';
 import 'package:e_commerce/domain/entites/RegisterResponseEntity.dart';
 import 'package:e_commerce/domain/repositories/data_sources/remote_data_source/auth_remote_data_source.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../core/api/api_manager.dart';
 import '../../../core/api/end_points.dart';
+import '../../model/LoginResponseDm.dart';
 
 @Injectable(as: AuthRemoteDataSource)
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -44,6 +46,33 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       }
     } catch (e) {
       return Left(ServerError(errMsg: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failures, LoginResponseDm>> login(
+      String email, String password) async {
+    try {
+      final List<ConnectivityResult> connectivityResult =
+          await Connectivity().checkConnectivity();
+      if (connectivityResult.contains(ConnectivityResult.mobile) ||
+          connectivityResult.contains(ConnectivityResult.wifi)) {
+        var response =
+            await apiManager.postData(endPoint: EndPoints.loginEndPoint, body: {
+          "email": email,
+          "password": password,
+        });
+        LoginResponseDm loginResponse = LoginResponseDm.fromJson(response.data);
+        if (response.statusCode! >= 200 && response.statusCode! <= 300) {
+          return Right(loginResponse);
+        } else {
+          return Left(ServerError(errMsg: loginResponse.message!));
+        }
+      } else {
+        return Left(NetworkError(errMsg: "no internet connection"));
+      }
+    } catch (e) {
+      return Left(Failures(errMsg: e.toString()));
     }
   }
 }
