@@ -1,27 +1,27 @@
 import 'package:e_commerce/domain/entites/CategoriesResponseEntity.dart';
 
-class CategoryResponseDm extends CategoriesResponseEntity {
-  CategoryResponseDm({
+class CategoriesOrBrandsResponseDm extends CategoriesOrBrandsResponseEntity {
+  CategoriesOrBrandsResponseDm({
     super.results,
     super.metadata,
     super.data,
   });
 
-  CategoryResponseDm.fromJson(dynamic json) {
+  CategoriesOrBrandsResponseDm.fromJson(dynamic json) {
     results = json['results'];
     metadata =
         json['metadata'] != null ? MetadataDm.fromJson(json['metadata']) : null;
     if (json['data'] != null) {
       data = [];
       json['data'].forEach((v) {
-        data?.add(CategoryDm.fromJson(v));
+        data?.add(CategoriesOrBrandsDm.fromJson(v));
       });
     }
   }
 }
 
-class CategoryDm extends CategoryEntity {
-  CategoryDm({
+class CategoriesOrBrandsDm extends CategoriesOrBrandsEntity {
+  CategoriesOrBrandsDm({
     super.id,
     super.name,
     super.slug,
@@ -30,7 +30,7 @@ class CategoryDm extends CategoryEntity {
     super.updatedAt,
   });
 
-  CategoryDm.fromJson(dynamic json) {
+  CategoriesOrBrandsDm.fromJson(dynamic json) {
     id = json['_id'];
     name = json['name'];
     slug = json['slug'];

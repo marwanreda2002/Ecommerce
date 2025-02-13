@@ -6,12 +6,12 @@ import '../../core/errors/failuer.dart';
 import '../entites/CategoriesResponseEntity.dart';
 
 @injectable
-class GetAllCategoryUseCase {
+class GetAllBrandsUseCase {
   HomeRepo homeRepo;
 
-  GetAllCategoryUseCase({required this.homeRepo});
+  GetAllBrandsUseCase({required this.homeRepo});
 
   Future<Either<Failures, CategoriesOrBrandsResponseEntity>> invoke() {
-    return homeRepo.getAllCategories();
+    return homeRepo.getAllBrands();
   }
 }

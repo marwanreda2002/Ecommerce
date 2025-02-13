@@ -8,8 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../../../core/utils/app_assets.dart';
 import '../../../../../../domain/entites/CategoriesResponseEntity.dart';
+import '../../../../../../domain/use_cases/get_all_brands_use_case.dart';
+import '../../../../../../domain/use_cases/get_all_category_use_case.dart';
 
 class HomeTab extends StatelessWidget {
   HomeTab({super.key});
@@ -18,11 +19,8 @@ class HomeTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeTabCubit, HomeTabStates>(
-      bloc: cubit..getAllCategories(),
-      builder: (context, state) {
-        return Scaffold(
-          backgroundColor: Colors.white,
+    return Scaffold(
+      backgroundColor: Colors.white,
           body: Column(
             children: [
               Row(
@@ -38,14 +36,42 @@ class HomeTab extends StatelessWidget {
                   )
                 ],
               ),
-              state is CategorySuccessState
-                  ? _buildCategoryBrandSec(state.categoriesResponseEntity.data!)
-                  : Center(
-                      child: CircularProgressIndicator(
-                        color: AppColors.primaryColor,
-                      ),
-                    ),
-              Row(
+          // cubit.categoriesList.isNotEmpty
+          //     ? _buildCategoryBrandSec(cubit.categoriesList)
+          //     : Center(
+          //         child: CircularProgressIndicator(
+          //           color: AppColors.primaryColor,
+          //         ),
+          //       ),
+          BlocBuilder<HomeTabCubit, HomeTabStates>(
+            bloc: HomeTabCubit(
+                getAllBrandsUseCase: getIt<GetAllBrandsUseCase>(),
+                getAllCategoriesUseCase: getIt<GetAllCategoryUseCase>())
+              ..getAllCategories(),
+            builder: (context, state) {
+              if (state is CategorySuccessState) {
+                return _buildCategoryBrandSec(
+                    state.categoriesResponseEntity.data!);
+              } else if (state is CategoryErrorState) {
+                return Center(child: Text(state.errMsg));
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: AppColors.primaryColor,
+                  ),
+                );
+              }
+            },
+          ),
+          // state is CategorySuccessState
+          //     ? _buildCategoryBrandSec(state.categoriesResponseEntity.data!)
+          //     : Center(
+          //   child: CircularProgressIndicator(
+          //     color: AppColors.primaryColor,
+          //   ),
+          // );
+
+          Row(
                 children: [
                   Text(
                     "Brands",
@@ -58,15 +84,46 @@ class HomeTab extends StatelessWidget {
                   )
                 ],
               ),
-              // _buildCategoryBrandSec(),
-            ],
+          BlocBuilder<HomeTabCubit, HomeTabStates>(
+            bloc: HomeTabCubit(
+                getAllBrandsUseCase: getIt<GetAllBrandsUseCase>(),
+                getAllCategoriesUseCase: getIt<GetAllCategoryUseCase>())
+              ..getAllBrands(),
+            builder: (context, state) {
+              if (state is BrandsSuccessState) {
+                return _buildCategoryBrandSec(state.brandsResponseEntity.data!);
+              } else if (state is BrandsErrorState) {
+                return Center(child: Text(state.errMsg));
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: AppColors.primaryColor,
+                  ),
+                );
+              }
+            },
           ),
-        );
-      },
+
+          // cubit.brandsList.isNotEmpty?
+          // _buildCategoryBrandSec(cubit.brandsList):
+          // Center(
+          //   child: CircularProgressIndicator(
+          //     color: AppColors.primaryColor,
+          //   ),
+          // ),
+          // state is BrandsSuccessState
+          //     ? _buildCategoryBrandSec(state.brandsResponseEntity.data!)
+          //     : Center(
+          //         child: CircularProgressIndicator(
+          //           color: AppColors.primaryColor,
+          //         ),
+          //       ),
+        ],
+      ),
     );
   }
 
-  SizedBox _buildCategoryBrandSec(List<CategoryEntity> list) {
+  SizedBox _buildCategoryBrandSec(List<CategoriesOrBrandsEntity> list) {
     return SizedBox(
       height: 250.h,
       width: double.infinity,
@@ -97,7 +154,7 @@ class HomeTab extends StatelessWidget {
             errorWidget: (context, url, error) => Icon(Icons.error),
           );
         },
-      ), // GridView.builder
-    ); // SizedBox
+      ),
+    );
   }
 }

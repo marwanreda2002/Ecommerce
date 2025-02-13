@@ -1,7 +1,5 @@
 import 'package:dartz/dartz.dart';
-
 import 'package:e_commerce/core/errors/failuer.dart';
-
 import 'package:e_commerce/domain/entites/CategoriesResponseEntity.dart';
 import 'package:injectable/injectable.dart';
 
@@ -15,8 +13,16 @@ class HomeRepoImpl extends HomeRepo {
   HomeRepoImpl({required this.homeRemoteDataSource});
 
   @override
-  Future<Either<Failures, CategoriesResponseEntity>> getAllCategories() async {
+  Future<Either<Failures, CategoriesOrBrandsResponseEntity>>
+      getAllCategories() async {
     var either = await homeRemoteDataSource.getAllCategories();
+    return either.fold((error) => Left(error), (response) => Right(response));
+  }
+
+  @override
+  Future<Either<Failures, CategoriesOrBrandsResponseEntity>>
+      getAllBrands() async {
+    var either = await homeRemoteDataSource.getAllBrands();
     return either.fold((error) => Left(error), (response) => Right(response));
   }
 }

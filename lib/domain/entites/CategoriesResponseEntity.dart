@@ -1,5 +1,5 @@
-class CategoriesResponseEntity {
-  CategoriesResponseEntity({
+class CategoriesOrBrandsResponseEntity {
+  CategoriesOrBrandsResponseEntity({
     this.results,
     this.metadata,
     this.data,
@@ -7,11 +7,11 @@ class CategoriesResponseEntity {
 
   int? results;
   MetadataEntity? metadata;
-  List<CategoryEntity>? data;
+  List<CategoriesOrBrandsEntity>? data;
 }
 
-class CategoryEntity {
-  CategoryEntity({
+class CategoriesOrBrandsEntity {
+  CategoriesOrBrandsEntity({
     this.id,
     this.name,
     this.slug,

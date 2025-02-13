@@ -1,10 +1,8 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dartz/dartz.dart';
 import 'package:e_commerce/core/api/api_manager.dart';
-
 import 'package:e_commerce/core/errors/failuer.dart';
 import 'package:e_commerce/data/model/CategoryReponseDm.dart';
-
 import 'package:e_commerce/domain/entites/CategoriesResponseEntity.dart';
 import 'package:injectable/injectable.dart';
 
@@ -16,7 +14,8 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   ApiManager apiManager = ApiManager();
 
   @override
-  Future<Either<Failures, CategoryResponseDm>> getAllCategories() async {
+  Future<Either<Failures, CategoriesOrBrandsResponseDm>>
+      getAllCategories() async {
     final List<ConnectivityResult> connectivityResult =
         await Connectivity().checkConnectivity();
     try {
@@ -24,9 +23,35 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
           connectivityResult.contains(ConnectivityResult.wifi)) {
         var response = await apiManager.getData(
             endPoint: EndPoints.getAllCategoryEndPoint);
-        var categoryResponse = CategoryResponseDm.fromJson(response.data);
+        var categoryResponse =
+            CategoriesOrBrandsResponseDm.fromJson(response.data);
         if (response.statusCode! >= 200 && response.statusCode! <= 300) {
           return Right(categoryResponse);
+        } else {
+          return Left(ServerError(errMsg: "something went wrong"));
+        }
+      } else {
+        return Left(NetworkError(errMsg: "no internet connection"));
+      }
+    } catch (e) {
+      return Left(Failures(errMsg: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failures, CategoriesOrBrandsResponseEntity>>
+      getAllBrands() async {
+    final List<ConnectivityResult> connectivityResult =
+        await Connectivity().checkConnectivity();
+    try {
+      if (connectivityResult.contains(ConnectivityResult.mobile) ||
+          connectivityResult.contains(ConnectivityResult.wifi)) {
+        var response =
+            await apiManager.getData(endPoint: EndPoints.getAllBrandsEndPoint);
+        var brandResponse =
+            CategoriesOrBrandsResponseDm.fromJson(response.data);
+        if (response.statusCode! >= 200 && response.statusCode! <= 300) {
+          return Right(brandResponse);
         } else {
           return Left(ServerError(errMsg: "something went wrong"));
         }

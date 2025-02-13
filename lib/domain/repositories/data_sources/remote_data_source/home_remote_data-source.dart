@@ -4,5 +4,7 @@ import '../../../../core/errors/failuer.dart';
 import '../../../entites/CategoriesResponseEntity.dart';
 
 abstract class HomeRemoteDataSource {
-  Future<Either<Failures, CategoriesResponseEntity>> getAllCategories();
+  Future<Either<Failures, CategoriesOrBrandsResponseEntity>> getAllCategories();
+
+  Future<Either<Failures, CategoriesOrBrandsResponseEntity>> getAllBrands();
 }
