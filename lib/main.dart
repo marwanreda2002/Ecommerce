@@ -1,4 +1,5 @@
 import 'package:e_commerce/features/ui/auth/register/register_screen.dart';
+import 'package:e_commerce/features/ui/pages/home_screen/tabs/product%20tab/product_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             initialRoute: AppRoutes.homeRoute,
             routes: {
+              AppRoutes.productRoute: (context) => ProductDetails(),
               AppRoutes.registerRoute: (context) => RegisterScreen(),
               AppRoutes.loginRoute: (context) => LoginScreen(),
               AppRoutes.homeRoute: (context) => HomeScreen(),

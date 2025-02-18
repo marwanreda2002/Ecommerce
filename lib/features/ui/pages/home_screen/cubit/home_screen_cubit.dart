@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../tabs/favorite_tab.dart';
 import '../tabs/home_tab/home_tab.dart';
-import '../tabs/products_tab.dart';
+import '../tabs/product tab/products_tab.dart';
 import '../tabs/user_tab.dart';
 
 class HomeScreenCubit extends Cubit<HomeStates> {

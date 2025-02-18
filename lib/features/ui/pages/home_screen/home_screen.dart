@@ -2,15 +2,9 @@ import 'package:e_commerce/core/utils/app_assets.dart';
 import 'package:e_commerce/core/utils/app_colors.dart';
 import 'package:e_commerce/features/ui/pages/home_screen/cubit/home_screen_cubit.dart';
 import 'package:e_commerce/features/ui/pages/home_screen/cubit/home_states.dart';
-import 'package:e_commerce/features/ui/pages/home_screen/tabs/favorite_tab.dart';
-import 'package:e_commerce/features/ui/pages/home_screen/tabs/home_tab/home_tab.dart';
-import 'package:e_commerce/features/ui/pages/home_screen/tabs/products_tab.dart';
-import 'package:e_commerce/features/ui/pages/home_screen/tabs/user_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../../core/di/di.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});

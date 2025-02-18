@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+
 import 'app_colors.dart';
 
 class AppTheme {
   static final ThemeData lightTheme = ThemeData(
     primaryColor: AppColors.primaryColor,
-    scaffoldBackgroundColor: AppColors.primaryColor,
+    // scaffoldBackgroundColor: AppColors.primaryColor,
     appBarTheme: const AppBarTheme(
       backgroundColor: AppColors.whiteColor,
       elevation: 0,

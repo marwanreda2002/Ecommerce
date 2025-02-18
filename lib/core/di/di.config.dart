@@ -16,23 +16,32 @@ import '../../data/data_sources/remote_data_source/auth_remote_data_source_impl.
     as _i373;
 import '../../data/data_sources/remote_data_source/home_remote_data_source_impl.dart'
     as _i886;
+import '../../data/data_sources/remote_data_source/product_remote_data_source_impl.dart'
+    as _i213;
 import '../../data/repositories/auth_repository_imp.dart' as _i346;
 import '../../data/repositories/home_repo_impl.dart' as _i470;
+import '../../data/repositories/product_repo_impl.dart' as _i953;
 import '../../domain/repositories/auth/auth_repository.dart' as _i660;
 import '../../domain/repositories/data_sources/remote_data_source/auth_remote_data_source.dart'
     as _i900;
 import '../../domain/repositories/data_sources/remote_data_source/home_remote_data-source.dart'
     as _i442;
+import '../../domain/repositories/data_sources/remote_data_source/product_remote_data_source.dart'
+    as _i28;
 import '../../domain/repositories/home/home_repo.dart' as _i410;
+import '../../domain/repositories/products/product_repo.dart' as _i1011;
 import '../../domain/use_cases/LoginUseCase.dart' as _i621;
 import '../../domain/use_cases/get_all_brands_use_case.dart' as _i773;
 import '../../domain/use_cases/get_all_category_use_case.dart' as _i1035;
+import '../../domain/use_cases/get_all_products_use_case.dart' as _i939;
 import '../../domain/use_cases/register_use_case.dart' as _i479;
 import '../../features/ui/auth/login/cubit/login_cubit.dart' as _i209;
 import '../../features/ui/auth/register/cubit/register_view_model.dart'
     as _i873;
 import '../../features/ui/pages/home_screen/tabs/home_tab/cubit/home_tab_cubit.dart'
     as _i843;
+import '../../features/ui/pages/home_screen/tabs/product%20tab/cubit/product_cubit.dart'
+    as _i191;
 import '../api/api_manager.dart' as _i1047;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -49,6 +58,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i1047.ApiManager>(() => _i1047.ApiManager());
     gh.factory<_i442.HomeRemoteDataSource>(
         () => _i886.HomeRemoteDataSourceImpl());
+    gh.factory<_i28.ProductRemoteDataSource>(() =>
+        _i213.ProductRemoteDataSourceImpl(apiManager: gh<_i1047.ApiManager>()));
     gh.factory<_i410.HomeRepo>(() => _i470.HomeRepoImpl(
         homeRemoteDataSource: gh<_i442.HomeRemoteDataSource>()));
     gh.factory<_i900.AuthRemoteDataSource>(
@@ -57,6 +68,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i773.GetAllBrandsUseCase(homeRepo: gh<_i410.HomeRepo>()));
     gh.factory<_i1035.GetAllCategoryUseCase>(
         () => _i1035.GetAllCategoryUseCase(homeRepo: gh<_i410.HomeRepo>()));
+    gh.factory<_i1011.ProductRepo>(() => _i953.ProductRepoImpl(
+        productRemoteDataSource: gh<_i28.ProductRemoteDataSource>()));
     gh.factory<_i660.AuthRepository>(
         () => _i346.AuthRepositoryImpl(gh<_i900.AuthRemoteDataSource>()));
     gh.factory<_i843.HomeTabCubit>(() => _i843.HomeTabCubit(
@@ -67,6 +80,10 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i621.LoginUseCase(gh<_i660.AuthRepository>()));
     gh.factory<_i479.RegisterUseCase>(
         () => _i479.RegisterUseCase(gh<_i660.AuthRepository>()));
+    gh.factory<_i939.GetAllProductsUseCase>(
+        () => _i939.GetAllProductsUseCase(gh<_i1011.ProductRepo>()));
+    gh.factory<_i191.ProductCubit>(() => _i191.ProductCubit(
+        getAllProductsUseCase: gh<_i939.GetAllProductsUseCase>()));
     gh.factory<_i873.RegisterViewModel>(() =>
         _i873.RegisterViewModel(registerUseCase: gh<_i479.RegisterUseCase>()));
     gh.factory<_i209.LoginCubit>(
